@@ -1,6 +1,6 @@
 
 ##X-Pack 적용
-kubectl exec -it $(kubectl get pods -n kube-logging | grep elasticsearch-client | sed -n 1p | awk '{print $1}') -n kube-logging -- bin/elasticsearch-setup-passwords auto -b
+kubectl exec -it $(kubectl get pods -n efk-logging | grep elasticsearch-client | sed -n 1p | awk '{print $1}') -n efk-logging -- bin/elasticsearch-setup-passwords auto -b
 
 /*
 Changed password for user apm_system
@@ -23,4 +23,4 @@ PASSWORD elastic =
 */
 
 ##X-Pack -> Password 지정하기
-kubectl create secret generic elasticsearch-pw-elastic -n kube-logging --from-literal password=
+kubectl create secret generic elasticsearch-pw-elastic -n efk-logging --from-literal password=
