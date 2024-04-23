@@ -35,7 +35,7 @@ data:
        user "#{ENV['FLUENT_ELASTICSEARCH_USER']}"
        password "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD']}"
        scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'http'}"
-       ssl_verify "#{ENV['FLUENT_ELASTICSEARCH_SSL_VERIFY'] || ''false}"
+       ssl_verify "#{ENV['FLUENT_ELASTICSEARCH_SSL_VERIFY'] || 'false'}"
        reload_connections true
        logstash_format true
        logstash_prefix logstash
