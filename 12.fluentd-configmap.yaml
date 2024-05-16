@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: fluentd-config
-  namespace: efk-logging
+  namespace: lead-gen
 data:
   fluent.conf: |
     <match fluent.**>
@@ -12,9 +12,9 @@ data:
     # here we read the logs from Docker's containers and parse them
     <source>
       @type tail
-      path /var/log/containers/*.log
-      pos_file /var/log/app.log.pos
-      tag kubernetes.*
+      path /var/log/containers/*.log   ##Pod에 대한 로그만 수집됨(경로 특성상)
+      pos_file /var/log/app.log.pos    ##Pod로그에 대한 수집 정보들 정리 파일
+      tag kubernetes.*   ##쿠버네티스 로그를 수집하는 과정(docker등 다양한 tag도 있음)
       read_from_head true
       <parse>
         @type none
@@ -25,6 +25,26 @@ data:
     <filter kubernetes.**>
         @type kubernetes_metadata
     </filter>
+
+    ## 로그 : /var/log/containers/*.log에서 수집되는 단어 중##
+    ## 아래 필터에 적용된 pattern만 수집한다!
+    <filter **>
+      @type grep
+      <regexp>
+        key message
+        pattern success|error|failure|403|300|200
+      </regexp>
+    </filter>
+    
+    <filter **>
+      @type grep
+      <regexp>
+        key message
+        pattern CDD|
+        invert true ##해당 pattern에 대해서는 제외
+      </regexp>
+    </filter>
+
      # we send the logs to Elasticsearch
     <match **>
        @type elasticsearch_dynamic

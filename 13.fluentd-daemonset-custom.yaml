@@ -62,21 +62,15 @@ spec:
         effect: NoSchedule
       containers:
       - name: fluentd
-        image: cloud1-stbhub:8080/efk/fluentd:1.0
+        # image: cloud1-stbhub:8080/efk/fluentd:1.0
+        image: fluent/fluentd-kubernetes-daemonset:v1.16.5-debian-elasticsearch8-1.0
         env:
         - name:  FLUENT_ELASTICSEARCH_HOST
-          value: "elasticsearch-client.lead-gen.svc.cluster.local"
+          value: "192.168.0.204"
         - name:  FLUENT_ELASTICSEARCH_PORT
           value: "9200"
         - name: FLUENT_ELASTICSEARCH_SCHEME
           value: "http"
-        - name: FLUENT_ELASTICSEARCH_USER # even if not used they are necessary
-          value: "elastic"
-        - name: FLUENT_ELASTICSEARCH_PASSWORD # even if not used they are necessary
-          valueFrom:
-            secretKeyRef:
-              name: elasticsearch-pw-elastic
-              key: password
         - name: K8S_NODE_NAME  ##Node Name 설정
           valueFrom:
             fieldRef:
@@ -100,9 +94,9 @@ spec:
       - name: varlog    ##서버 로그 경로
         hostPath:
           path: /var/log
-      - name: varlibdockercontainers  ##docker 라이브러리 (/etc/docker/daemon.json 참고)
+      - name: varlibdockercontainers
         hostPath:
-          path: /lwork01/docker/containers
+          path: /var/lib/docker/containers
       - name: fluentd-config
         configMap:
           name: fluentd-config # name of the config map we will create

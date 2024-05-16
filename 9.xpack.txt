@@ -1,26 +1,26 @@
 
 ##X-Pack 적용
-kubectl exec -it $(kubectl get pods -n efk-logging | grep elasticsearch-client | sed -n 1p | awk '{print $1}') -n efk-logging -- bin/elasticsearch-setup-passwords auto -b
+kubectl exec -it $(kubectl get pods -n lead-gen | grep elasticsearch-client | sed -n 1p | awk '{print $1}') -n lead-gen -- bin/elasticsearch-setup-passwords auto -b
 
 /*
 Changed password for user apm_system
-PASSWORD apm_system = 
+PASSWORD apm_system = xQmgDsfN26193bhkWf96
 
 Changed password for user kibana
-PASSWORD kibana = 
+PASSWORD kibana = vSmRT0vL96piPxFHQzMA
 
 Changed password for user logstash_system
-PASSWORD logstash_system = 
+PASSWORD logstash_system = O89fIJ4YsRkMVPViyesl
 
 Changed password for user beats_system
-PASSWORD beats_system = 
+PASSWORD beats_system = e4Lgbg1M1f4WizyINLHA
 
 Changed password for user remote_monitoring_user
-PASSWORD remote_monitoring_user = 
+PASSWORD remote_monitoring_user = d0xtXAInUC8whP3U6ri5
 
 Changed password for user elastic
-PASSWORD elastic = 
+PASSWORD elastic = Nii97ni7OzQ1T8j0xNhu
 */
 
 ##X-Pack -> Password 지정하기
-kubectl create secret generic elasticsearch-pw-elastic -n efk-logging --from-literal password=
+kubectl create secret generic elasticsearch-pw-elastic -n lead-gen --from-literal password=Nii97ni7OzQ1T8j0xNhu

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: efk-logging
+  namespace: lead-gen
   name: elasticsearch-client
   labels:
     app: elasticsearch
@@ -19,7 +19,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: efk-logging
+  namespace: lead-gen
   name: elasticsearch-client
   labels:
     app: elasticsearch

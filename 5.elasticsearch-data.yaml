@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: efk-logging
+  namespace: lead-gen
   name: elasticsearch-data
   labels:
     app: elasticsearch
@@ -17,7 +17,7 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  namespace: efk-logging
+  namespace: lead-gen
   name: elasticsearch-data
   labels:
     app: elasticsearch
@@ -63,20 +63,24 @@ spec:
       - name: config
         configMap:
           name: elasticsearch-data-config
+      - name: elasticsearch-data-persistent-storage
+        persistentVolumeClaim:
+          claimName: work-persistent-storage
       initContainers:
       - name: increase-vm-max-map
         image: busybox
         command: ["sysctl", "-w", "vm.max_map_count=262144"]
         securityContext:
           privileged: true
-  volumeClaimTemplates:
-  - metadata:
-      name: elasticsearch-data-persistent-storage
-      #annotations:
-        #volume.beta.kubernetes.io/storage-class: "gp2"
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: nfs-client  ##StorageClass 지정하기
-      resources:
-        requests:
-          storage: 20Gi
+
+  # volumeClaimTemplates:
+  # - metadata:
+  #     name: elasticsearch-data-persistent-storage
+  #     #annotations:
+  #       #volume.beta.kubernetes.io/storage-class: "gp2"
+  #   spec:
+  #     accessModes: [ "ReadWriteOnce" ]
+  #     storageClassName: nfs-client  ##StorageClass 지정하기
+  #     resources:
+  #       requests:
+  #         storage: 20Gi
